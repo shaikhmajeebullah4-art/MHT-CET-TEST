@@ -183,18 +183,7 @@
 </style>
 </head>
 <body>
-<div class="site-lock-overlay" id="siteLockOverlay">
-  <div class="site-lock-box">
-    <h3>Instructor access only</h3>
-    <p>This test portal is locked. Enter the instructor password to continue.</p>
-    <input type="password" id="siteLockInput" placeholder="Password" autocomplete="off">
-    <p class="note" id="siteLockError"></p>
-    <button class="btn btn-primary" id="siteLockBtn" style="margin-top:2px;">Unlock</button>
-  </div>
-</div>
-<div class="site-lock-overlay hidden" id="loginOverlay">
-  <div class="site-lock-box" style="max-width:380px;">
-    <span class="toggle-link" id="backToSiteLock" style="display:block; text-align:left; margin-bottom:10px; font-size:12px;">&larr; Back</span>
+
     <h3 id="authHeading">Sign in</h3>
     <div class="auth-tabs">
       <div class="auth-tab active" id="tabLogin">Log in</div>
@@ -1357,7 +1346,6 @@ async function saveUsers(users){
 // anyone else) to view, reset, or change this password from within the
 // website itself — the only way it can ever change is by directly editing
 // this line in the source file.
-const SITE_PASSWORD = "Smnaj@015#";
 // Tracks the logged-in username as a plain JS variable (not just sessionStorage),
 // so it's still available after submitTest() clears the session — that's what lets
 // "My history" work on the result screen right after a test auto-logs the student out.
@@ -1385,31 +1373,7 @@ function showApp(){
     }
   }
 
-  function tryUnlock(){
-    if(input.value === SITE_PASSWORD){
-      sessionStorage.setItem("siteUnlocked", "1");
-      goToLogin();
-    } else {
-      err.textContent = "Incorrect password.";
-      input.value = "";
-      input.focus();
-    }
   }
-  if(sessionStorage.getItem("siteUnlocked") === "1"){
-    goToLogin();
-  } else {
-    input.focus();
-  }
-  btn.addEventListener("click", tryUnlock);
-  input.addEventListener("keydown", e=>{ if(e.key==="Enter") tryUnlock(); });
-
-  document.getElementById("backToSiteLock").addEventListener("click", ()=>{
-    loginOverlay.classList.add("hidden");
-    overlay.classList.remove("hidden");
-    document.getElementById("siteLockInput").value = "";
-    document.getElementById("siteLockError").textContent = "";
-    document.getElementById("siteLockInput").focus();
-  });
 })();
 
 // --- Login / registration (user list stored in persistent shared storage, so it
